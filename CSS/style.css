@@ -338,13 +338,45 @@ svg {
    Page layout
 ================================================== */
 main {
-  max-width: 1300px;
+  width: 100%;
+  max-width: 1500px;
   margin: auto;
-  padding: 0 4vw;
+  padding: 0 clamp(16px, 3vw, 48px);
 }
 
 .section {
   padding: 28px 0;
+}
+
+#workspace {
+  min-height: calc(100vh - 96px);
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+#workspace .panels {
+  height: calc(100vh - 168px);
+  min-height: 480px;
+  margin-bottom: 0;
+}
+
+#workspace .panel {
+  display: flex;
+  min-height: 0;
+  flex-direction: column;
+}
+
+#workspace .panel textarea {
+  height: 100%;
+  min-height: 0;
+  flex: 1 1 auto;
+  resize: none;
+}
+
+#workspace .preview {
+  min-height: 120px;
+  max-height: none;
+  flex: 1 1 auto;
 }
 
 .section-title {
@@ -896,6 +928,20 @@ mark {
   .panels,
   .grid-2 {
     grid-template-columns: 1fr;
+  }
+
+  #workspace {
+    min-height: auto;
+  }
+
+  #workspace .panels {
+    height: auto;
+    min-height: 0;
+  }
+
+  #workspace .panel textarea {
+    height: 260px;
+    flex: none;
   }
 
   .menu-btn {
