@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Apex Text Analyzer</title>
+  <meta name="description" content="Analyze, transform and get instant text statistics.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="CSS/style.css">
+  <script src="JS/script.js" defer></script>
+</head>
+<body>
+
+<!-- Reusable APEX TECH logo (gold A with terminal prompt) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="aL" gradientUnits="userSpaceOnUse" x1="0" y1="110" x2="0" y2="760"><stop offset="0" stop-color="#FBE9A8"/><stop offset="0.45" stop-color="#E3B94C"/><stop offset="1" stop-color="#A9791D"/></linearGradient>
+    <linearGradient id="aR" gradientUnits="userSpaceOnUse" x1="0" y1="110" x2="0" y2="760"><stop offset="0" stop-color="#E9C766"/><stop offset="0.5" stop-color="#C99A2E"/><stop offset="1" stop-color="#7F5712"/></linearGradient>
+    <linearGradient id="aP" gradientUnits="userSpaceOnUse" x1="0" y1="540" x2="0" y2="730"><stop offset="0" stop-color="#FFF0BC"/><stop offset="1" stop-color="#E3B94C"/></linearGradient>
+    <symbol id="logo" viewBox="120 90 960 690">
+      <polygon points="548,110 600,110 600,307 375,760 225,760" fill="url(#aL)"/>
+      <polygon points="652,110 600,110 600,307 825,760 975,760" fill="url(#aR)"/>
+      <polyline points="508,562 596,632 508,702" fill="none" stroke="url(#aP)" stroke-width="36" stroke-linejoin="miter" stroke-linecap="butt" stroke-miterlimit="10"/>
+      <rect x="640" y="686" width="96" height="32" fill="url(#aP)" stroke="none"/>
+      <g fill="none" stroke="#C9A24A" stroke-width="7" stroke-linecap="butt">
+        <polyline points="256,700 178,700 150,672"/><polyline points="296,620 214,620 186,592"/>
+        <polyline points="944,700 1022,700 1050,672"/><polyline points="904,620 986,620 1014,592"/>
+      </g>
+      <g fill="#E3B94C" stroke="none">
+        <circle cx="142" cy="664" r="13"/><circle cx="178" cy="584" r="13"/><circle cx="1058" cy="664" r="13"/><circle cx="1022" cy="584" r="13"/>
+      </g>
+      <line x1="600" y1="100" x2="600" y2="312" stroke="#0B0B0C" stroke-width="8"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- Loading screen (APEX TECH) -->
+<div id="loader" class="loader" role="status" aria-live="polite">
+  <svg class="loader-logo" viewBox="120 90 960 690" aria-label="APEX TECH logo">
+    <defs>
+      <linearGradient id="lL" gradientUnits="userSpaceOnUse" x1="0" y1="110" x2="0" y2="760"><stop offset="0" stop-color="#FBE9A8"/><stop offset="0.45" stop-color="#E3B94C"/><stop offset="1" stop-color="#A9791D"/></linearGradient>
+      <linearGradient id="lR" gradientUnits="userSpaceOnUse" x1="0" y1="110" x2="0" y2="760"><stop offset="0" stop-color="#E9C766"/><stop offset="0.5" stop-color="#C99A2E"/><stop offset="1" stop-color="#7F5712"/></linearGradient>
+      <linearGradient id="lP" gradientUnits="userSpaceOnUse" x1="0" y1="540" x2="0" y2="730"><stop offset="0" stop-color="#FFF0BC"/><stop offset="1" stop-color="#E3B94C"/></linearGradient>
+    </defs>
+    <polygon class="a-left" points="548,110 600,110 600,307 375,760 225,760" fill="url(#lL)"/>
+    <polygon class="a-right" points="652,110 600,110 600,307 825,760 975,760" fill="url(#lR)"/>
+    <polyline class="chevron" points="508,562 596,632 508,702" fill="none" stroke="url(#lP)" stroke-width="36" stroke-linejoin="miter" stroke-linecap="butt" stroke-miterlimit="10"/>
+    <rect class="cursor" x="640" y="686" width="96" height="32" fill="url(#lP)" stroke="none"/>
+    <g fill="none" stroke="#C9A24A" stroke-width="7" stroke-linecap="butt">
+      <polyline class="trace" points="256,700 178,700 150,672"/>
+      <polyline class="trace" points="296,620 214,620 186,592"/>
+      <polyline class="trace" points="944,700 1022,700 1050,672"/>
+      <polyline class="trace" points="904,620 986,620 1014,592"/>
+    </g>
+    <g fill="#E3B94C" stroke="none">
+      <circle class="node" cx="142" cy="664" r="13"/>
+      <circle class="node n2" cx="178" cy="584" r="13"/>
+      <circle class="node n3" cx="1058" cy="664" r="13"/>
+      <circle class="node n4" cx="1022" cy="584" r="13"/>
+    </g>
+    <line x1="600" y1="100" x2="600" y2="312" stroke="#0B0B0C" stroke-width="8"/>
+  </svg>
+  <div class="loader-word">APEX TECH</div>
+  <div class="loader-bar"><i></i></div>
+  <p class="loader-text">LOADING</p>
+</div>
+
+<header class="nav-wrap">
+  <nav class="nav" aria-label="Main">
+    <a class="brand" href="#overview">
+      <svg viewBox="0 0 100 100" aria-hidden="true"><use href="#logo"/></svg>
+      <span>Apex <b>Text Analyzer</b></span>
+    </a>
+    <button class="menu-btn" id="menuBtn" aria-label="Toggle menu" aria-expanded="false">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#overview" class="active">Overview</a></li>
+      <li><a href="#workspace">Text Workspace</a></li>
+      <li><a href="#analysis">Deep Analysis</a></li>
+      <li><a href="#about">About</a></li>
+    </ul>
+    <button class="theme-btn" id="themeBtn" aria-label="Switch theme" title="Switch theme">
+      <span class="sun">☀</span><span class="moon">☾</span>
+    </button>
+  </nav>
+</header>
+
+<main>
+  <section id="overview" class="section">
+    <div class="hero">
+      <svg class="hero-logo" viewBox="0 0 100 100" aria-hidden="true"><use href="#logo"/></svg>
+      <div>
+        <h2>Apex <span>Text Analyzer</span></h2>
+        <p>Analyze, transform and get instant statistics.</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- SECTION 2: TEXT WORKSPACE -->
+  <section id="workspace" class="section">
+    <h3 class="section-title">Text Workspace</h3>
+    <div class="panels">
+      <div class="panel">
+        <div class="panel-head">
+          <h4>Text editor</h4>
+          <div class="btn-row">
+            <button class="btn small" id="undoBtn" title="Undo (Ctrl+Z)">Undo</button>
+            <button class="btn small" id="redoBtn" title="Redo (Ctrl+Y)">Redo</button>
+          </div>
+        </div>
+        <label for="editor" class="sr-only">Your text</label>
+        <textarea id="editor" maxlength="10000" placeholder="Type or paste your text here…" spellcheck="true"></textarea>
+        <div class="meter"><i id="meterFill"></i></div>
+        <div class="editor-meta">
+          <span><b id="liveChars">0</b> / 10000 characters</span>
+          <span id="remaining">10000 remaining</span>
+          <span><b id="liveWords">0</b> words</span>
+        </div>
+        <div class="btn-row wrap">
+          <button class="btn primary" id="sampleBtn">Use sample text</button>
+          <button class="btn" id="clearBtn">Clear text</button>
+          <button class="btn" id="clearSavedBtn">Clear saved text</button>
+          <button class="btn danger" id="resetBtn">Reset all</button>
+        </div>
+        <div class="quick">
+          <strong>Quick tools</strong>
+          <button class="pill" data-tool="upper">UPPERCASE</button>
+          <button class="pill" data-tool="lower">lowercase</button>
+          <button class="pill" data-tool="title">Title Case</button>
+          <button class="pill" data-tool="spaces">Remove extra spaces</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head"><h4>Word search</h4></div>
+        <div class="search-row">
+          <label for="searchInput" class="sr-only">Word to search</label>
+          <input id="searchInput" type="text" placeholder="Search for a word…" autocomplete="off">
+          <button class="btn primary" id="searchBtn">Search</button>
+        </div>
+        <div class="result-line">
+          <div class="big"><strong id="occurrences">0</strong><span>occurrences</span></div>
+          <p id="searchStatus" class="status">Enter text and a word to start searching.</p>
+        </div>
+        <h5>Highlighted text</h5>
+        <div id="preview" class="preview" aria-live="polite"></div>
+        <h5>Recent searches</h5>
+        <div id="history" class="chips"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES: quick stats below the workspace -->
+  <section id="stats" class="section">
+    <h3 class="section-title">Quick Stats</h3>
+    <div class="cards" id="statCards">
+      <article class="card"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h7"/></svg><div><strong id="statWords">0</strong><span>Words</span></div></article>
+      <article class="card"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10h1M11 10h1M15 10h1M7 14h10"/></svg><div><strong id="statChars">0</strong><span>Characters</span></div></article>
+      <article class="card"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M8 12h8"/></svg><div><strong id="statNoSpace">0</strong><span>Without spaces</span></div></article>
+      <article class="card"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg><div><strong id="statSentences">0</strong><span>Sentences</span></div></article>
+      <article class="card"><svg viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5zM3 13l9 5 9-5"/></svg><div><strong id="statParagraphs">0</strong><span>Paragraphs</span></div></article>
+      <article class="card"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div><strong id="statTime">0 min</strong><span>Reading time</span></div></article>
+    </div>
+  </section>
+
+  <!-- SECTION 3: DEEP ANALYSIS -->
+  <section id="analysis" class="section">
+    <div class="section-bar">
+      <h3 class="section-title">Deep Analysis</h3>
+      <div class="btn-row wrap">
+        <button class="btn" id="copyBtn">Copy analysis</button>
+        <button class="btn" id="txtBtn">Download TXT</button>
+        <button class="btn" id="csvBtn">Download CSV</button>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="panel">
+        <h4>Top 5 longest words</h4>
+        <ol id="longestList" class="list"></ol>
+      </div>
+      <div class="panel">
+        <div class="panel-head">
+          <h4>Most frequent words</h4>
+          <label class="check"><input type="checkbox" id="ignoreCommon"> Ignore common words</label>
+        </div>
+        <ol id="frequentList" class="list"></ol>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="panel">
+        <div class="panel-head">
+          <h4>Word frequency chart</h4>
+          <label class="check">Show
+            <select id="chartSize"><option>5</option><option selected>8</option><option>10</option><option>15</option></select>
+          </label>
+        </div>
+        <div id="chart" class="chart"></div>
+      </div>
+      <div class="panel">
+        <h4>Readability score <small>(estimate)</small></h4>
+        <div class="read-box">
+          <strong id="readLevel">–</strong>
+          <span id="readScore">Add some text to see an estimate.</span>
+        </div>
+        <ul class="facts">
+          <li><span>Average sentence length</span><b id="avgSentence">0</b></li>
+          <li><span>Average word length</span><b id="avgWord">0</b></li>
+          <li><span>Unique words</span><b id="uniqueWords">0</b></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="section">
+    <h3 class="section-title">About</h3>
+    <div class="panel about">
+      <p>Apex Text Analyzer counts words, characters, sentences and paragraphs as you type, finds any word instantly, and shows your most used and longest words. Everything runs in your browser and works offline. Your text is saved only on this device.</p>
+      <p><b>Shortcuts:</b> Ctrl+Z undo, Ctrl+Y redo, Ctrl+A select all, Ctrl+V paste, Enter in the search box to search.</p>
+    </div>
+  </section>
+</main>
+
+<footer class="footer"><span>★ Apex Text Analyzer</span><i></i><span>Smart. Simple. Powerful.</span></footer>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
